@@ -21,4 +21,38 @@ const createContact = asyncHandler(async (req, res) => {
     res.status(201).json(contact);
 });
 
-module.exports = {getContact, createContact};
+const getIDContact = asyncHandler(async (req, res) => {
+    const contacts = await Contact.findById(req.params.id);
+    if (!contacts) {
+        res.status(404);
+        throw new Error("Contact not found");
+    }
+    res.status(200).json(contacts);
+});
+
+const deleteContact = asyncHandler(async (req, res) => {
+    const contacts = await Contact.findById(req.params.id);
+    console.log(contacts);
+    if (!contacts) {
+        res.status(404);
+        throw new Error("Contact not found");
+    }
+    await Contact.findByIdAndDelete(req.params.id);
+    res.status(200).json(contacts);
+});
+
+const updateContact = asyncHandler(async (req, res) => {
+    const contacts = await Contact.findById(req.params.id);
+    if (!contacts) {
+        res.status(404);
+        throw new Error("Contact not found");
+    }
+    const updateContact = await Contact.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        {new : true}
+    )
+    res.status(200).json(updateContact);
+});
+
+module.exports = {getContact, createContact, getIDContact, deleteContact, updateContact};
