@@ -1,5 +1,5 @@
 console.log("HIIIIIIIIIIII module");
-function add() {
+export function add() {
     console.log("Adding function");
 }
-module.exports = { add };
+// module.exports = { add };
